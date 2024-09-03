@@ -65,7 +65,6 @@ async function subscribeTopic(topicID, subscriberID){
 }
 
 async function createTemplate(workflowGroupsData, Subject, emailID, Content, topicID) {
-    const temp = createTemplat(Subject, Content, emailID);
 
     let template = await novu.notificationTemplates.create({
         name: topicID,
