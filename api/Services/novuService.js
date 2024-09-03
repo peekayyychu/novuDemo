@@ -64,9 +64,22 @@ async function subscribeTopic(topicID, subscriberID){
     return topicSubscribed;
 }
 
+function createTemplat(subject, content, emailID) {
+    const templateString = "<h1>Layout Start</h1>{{{content}}}<h1>Layout End</h1>";
+    const template = Handlebars.compile(templateString);
 
+    const data = {
+        content: content,
+        emailID: emailID,
+        subject: subject
+    };
+
+    return template(data);
+}
 
 async function createTemplate(workflowGroupsData, Subject, emailID, Content, topicID) {
+    const temp = createTemplat(Subject, Content, emailID);
+
     let template = await novu.notificationTemplates.create({
         name: topicID,
         active: true,
