@@ -1,4 +1,4 @@
-# notif-2
+# Novu Demo
 
 a [Sails v1](https://sailsjs.com) application
 
