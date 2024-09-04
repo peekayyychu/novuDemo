@@ -17,6 +17,8 @@ module.exports = {
     fn: async function() {
         const subject = 'Test function';
         let content = 'There has been a problem';
+        // let content = new Object();
+        // content.data = 'There has been a problem'
         const topicID = 'topic-xxx';
         // await novuServices.createSubscribers('66', 'Pratyush', 'Kumar', 'pratyush.kumar@smartjoules.in');
         const info = await novuServices.initiateSubscribers('66', topicID);

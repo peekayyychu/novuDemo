@@ -89,7 +89,7 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
                 template: {
                     type: StepTypeEnum.EMAIL,
                     subject: Subject,
-                    content: Content,
+                    // content: '{{text}}',
                     to: '{{emailID}}',
                 },
             },
@@ -103,6 +103,7 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
 
     return template;
 }
+
 
 async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID){
 
@@ -148,8 +149,15 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
             },
             payload: {
                 // subject: Subject,
-                content : Content,
+                // content : '{{content}}',
                 // templateId: Template.name,
+            },
+
+            overrides: {
+                email: {
+                    subject: Subject,
+                    text: Content,
+                },
             },
             actor: '99',
           });
