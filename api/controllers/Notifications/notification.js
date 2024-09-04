@@ -27,7 +27,7 @@ module.exports = {
         const senderInfo = await novuServices.initiateSubscribers('99',topicID);
         let record = null;
         if(info && senderInfo){
-            record = await novuServices.sender(subject, content, '66', 'email', 'pratyush.kumar@smartjoules.in', topicID);
+            record = await novuServices.sender(subject, content, '66', topicID);
         }else{
             console.log('Problem problem');
         }

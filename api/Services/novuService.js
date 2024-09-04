@@ -64,7 +64,7 @@ async function subscribeTopic(topicID, subscriberID){
     return topicSubscribed;
 }
 
-async function createTemplate(workflowGroupsData, Subject, emailID, Content, topicID) {
+async function createTemplate(workflowGroupsData, Subject, Content, topicID) {
 
     let template = await novu.notificationTemplates.create({
         name: topicID,
@@ -95,7 +95,7 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
                             content: Content,
                         }
                     ],
-                    to: '{{emailID}}',
+                    // to: '{{emailID}}',
                 },
             },
         ],
@@ -152,7 +152,7 @@ async function createTemplate(workflowGroupsData) {
   }
 */
 
-async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID){
+async function sender(Subject, Content, SubscriberID, topicID){
 
     try{
 
@@ -163,7 +163,7 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
 
         const topicSubscribed = await subscribeTopic(topicID, SubscriberID);
 
-        const Template = await createTemplate(workflowGroupsData, Subject, emailID, Content, topicID);
+        const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
         // const Template = await createTemplate(workflowGroupsData);
 
         console.log('Template data:', Template);
