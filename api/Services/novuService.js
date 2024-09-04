@@ -89,7 +89,12 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
                 template: {
                     type: StepTypeEnum.EMAIL,
                     subject: Subject,
-                    content: '{{text}}',
+                    content: [
+                        {
+                            type: 'text',
+                            content: Content,
+                        }
+                    ],
                     to: '{{emailID}}',
                 },
             },
@@ -104,6 +109,7 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
     return template;
 }
 
+/*
 async function createTemplate(workflowGroupsData) {
     let response;
     try {
@@ -144,7 +150,7 @@ async function createTemplate(workflowGroupsData) {
 
     return response;
   }
-
+*/
 
 async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID){
 
@@ -157,10 +163,10 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
 
         const topicSubscribed = await subscribeTopic(topicID, SubscriberID);
 
-        // const Template = await createTemplate(workflowGroupsData, Subject, emailID, Content, topicID);
-        const Template = await createTemplate(workflowGroupsData);
+        const Template = await createTemplate(workflowGroupsData, Subject, emailID, Content, topicID);
+        // const Template = await createTemplate(workflowGroupsData);
 
-        // console.log('Template data:', Template);
+        console.log('Template data:', Template);
 
 
         const _response = await novu.trigger('smash-Bkw44q_1L', {
@@ -172,7 +178,8 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
             },
             payload: {
                 subject: Subject,
-                text : '{{content}}',
+                // firstName : 'Pratyush',
+                content: Content,
                 // templateId: Template.name,
             },
 
