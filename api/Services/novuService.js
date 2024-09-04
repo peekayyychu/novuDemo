@@ -89,7 +89,7 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
                 template: {
                     type: StepTypeEnum.EMAIL,
                     subject: Subject,
-                    // content: '{{text}}',
+                    content: '{{text}}',
                     to: '{{emailID}}',
                 },
             },
@@ -104,6 +104,47 @@ async function createTemplate(workflowGroupsData, Subject, emailID, Content, top
     return template;
 }
 
+async function createTemplate(workflowGroupsData) {
+    let response;
+    try {
+        response = await novu.notificationTemplates.create({
+        name: 'Your Template Name',
+        active: true,
+        draft: false,
+        notificationGroupId: workflowGroupsData.data[0]._id,
+        steps: [
+            {
+              type: 'email', // Type of notification (email, SMS, etc.)
+              template: {
+                subject: 'Welcome to Our Service!',
+                type: StepTypeEnum.EMAIL,
+                content: [
+                  {
+                    type: 'text',
+                    content: 'Hello {{firstName}}, welcome to our platform!', // Use variables if needed
+                  },
+                ],
+              },
+              variables: [
+                { name: 'firstName', type: 'String' },
+                // Define other variables if necessary
+              ],
+            },
+            // You can add more steps if needed
+          ],
+        
+          // Add other content blocks as needed
+
+      });
+  
+      console.log('Template created:', response);
+    } catch (error) {
+      console.error('Error creating template:', error);
+    }
+
+    return response;
+  }
+
 
 async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID){
 
@@ -116,29 +157,11 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
 
         const topicSubscribed = await subscribeTopic(topicID, SubscriberID);
 
-        const Template = await createTemplate(workflowGroupsData, Subject, emailID, Content, topicID);
+        // const Template = await createTemplate(workflowGroupsData, Subject, emailID, Content, topicID);
+        const Template = await createTemplate(workflowGroupsData);
 
-        console.log('Template data:', Template);
+        // console.log('Template data:', Template);
 
-        // const payload = {
-        //     content: "<h1>Layout Start</h1>{{{body}}}<h1>Layout End</h1>",
-        //     description: "Organisation's first layout",
-        //     name: "First Layout",
-        //     identifier: "firstlayout",
-        //     variables: [
-        //     {
-        //     type: "String",
-        //     name: "body",
-        //     required: true,
-        //     defValue: "",
-        //     }
-        //     ],
-        //     isDefault: "false"
-        //     }
-
-        //     await novu.layouts.create(payload);
-
-        // let payloadContent = JSON.parse(Content);
 
         const _response = await novu.trigger('smash-Bkw44q_1L', {
             to: {
@@ -148,8 +171,8 @@ async function sender(Subject, Content, SubscriberID,AlertType,emailID, topicID)
                 topicKey: topicID,
             },
             payload: {
-                // subject: Subject,
-                // content : '{{content}}',
+                subject: Subject,
+                text : '{{content}}',
                 // templateId: Template.name,
             },
 
