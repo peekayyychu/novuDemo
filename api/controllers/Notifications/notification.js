@@ -27,7 +27,8 @@ module.exports = {
         const senderInfo = await novuServices.initiateSubscribers('99',topicID);
         let record = null;
         if(info && senderInfo){
-            record = await novuServices.sender(subject, content, '66', topicID);
+            let subscriberIDs = ['66','99'];
+            record = await novuServices.sender(subject, content, subscriberIDs, topicID);
         }else{
             console.log('Problem problem');
         }

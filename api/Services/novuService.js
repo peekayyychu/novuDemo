@@ -1,6 +1,7 @@
-const { Novu, FilterPartTypeEnum, TemplateVariableTypeEnum, StepTypeEnum, } =  require('@novu/node');
+const { Novu, FilterPartTypeEnum, TemplateVariableTypeEnum, StepTypeEnum, TriggerRecipientsTypeEnum} =  require('@novu/node');
 const apiKey = 'f67f91f0ce1f2ce1295b9c23fa9c7373'
 const axios = require('axios');
+const errors = require('sails-hook-sockets/lib/errors');
 // const { description } = require('../controllers/Notifications/workflow');
 const novu = new Novu(apiKey);
 
@@ -52,9 +53,9 @@ async function createTopic(topicID){
     }
 }
 
-async function subscribeTopic(topicID, subscriberID){
+async function subscribeTopic(topicID, subscriberIDs){
     const topicSubscribed = await novu.topics.addSubscribers(topicID, {
-        subscribers: [subscriberID],
+        subscribers: [subscriberIDs[0], subscriberIDs[1]],
     })
 
     if(!topicSubscribed){
@@ -152,44 +153,30 @@ async function createTemplate(workflowGroupsData) {
   }
 */
 
-async function sender(Subject, Content, SubscriberID, topicID){
+async function sender(Subject, Content, subscriberIDs, topicID){
 
     try{
-
-
         const workflowGroupsData = await fetchWorkFlow();
         
         await createTopic(topicID, Subject);
 
-        const topicSubscribed = await subscribeTopic(topicID, SubscriberID);
+        const topicSubscribed = await subscribeTopic(topicID, subscriberIDs)
 
+        if(!topicSubscribed) throw console.error('Cant subscribe to topic');
+        else console.log(topicSubscribed);
+        
         const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
         // const Template = await createTemplate(workflowGroupsData);
 
         console.log('Template data:', Template);
 
-
         const _response = await novu.trigger('smash-Bkw44q_1L', {
             to: {
-            //   subscriberId: SubscriberID,
-            //   email: emailID,
-                type: 'Topic',
+                type: TriggerRecipientsTypeEnum.TOPIC,
                 topicKey: topicID,
             },
             payload: {
-                subject: Subject,
-                // firstName : 'Pratyush',
-                content: Content,
-                // templateId: Template.name,
             },
-
-            overrides: {
-                email: {
-                    subject: Subject,
-                    text: Content,
-                },
-            },
-            actor: '99',
           });
 
         console.log('Event triggered for topic:', _response);
