@@ -55,7 +55,7 @@ async function createTopic(topicID){
 
 async function subscribeTopic(topicID, subscriberIDs){
     const topicSubscribed = await novu.topics.addSubscribers(topicID, {
-        subscribers: [subscriberIDs[0], subscriberIDs[1]],
+        subscribers: [subscriberIDs[1]],
     })
 
     if(!topicSubscribed){
