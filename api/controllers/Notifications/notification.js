@@ -19,11 +19,11 @@ module.exports = {
         let content = 'There has been a problem';
         // let content = new Object();
         // content.data = 'There has been a problem'
-        const topicID = 'topic-xxx';
-        // await novuServices.createSubscribers('66', 'Pratyush', 'Kumar', 'pratyush.kumar@smartjoules.in');
+        const topicID = 'alerttest1232';
+        await novuServices.createSubscribers('66', 'Pratyush', 'Kumar', 'pratyush.kumar@smartjoules.in');
         const info = await novuServices.initiateSubscribers('66', topicID);
 
-        // await novuServices.createSubscribers('99','Smart', 'Joules', 'pratyushkumar.jans@gmail.com');
+        await novuServices.createSubscribers('99','Smart', 'Joules', 'pratyushkumar.jans@gmail.com');
         const senderInfo = await novuServices.initiateSubscribers('99',topicID);
         let record = null;
         if(info && senderInfo){
