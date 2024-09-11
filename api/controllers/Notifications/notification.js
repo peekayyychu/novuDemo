@@ -15,8 +15,8 @@ module.exports = {
 
 
     fn: async function() {
-        const subject = 'Test function';
-        let content = 'There has been a problem';
+        const subject = 'Alert';
+        let content = 'There has been a Lots of problems';
         // let content = new Object();
         // content.data = 'There has been a problem'
         const topicID = 'alerttest1232';
