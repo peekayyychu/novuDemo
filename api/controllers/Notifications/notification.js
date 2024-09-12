@@ -8,32 +8,64 @@ module.exports = {
     example: [
         `curl -X GET "http://localhost:1337/`,
     ],
+    inputs: {
+      userSubscriberIds: {
+        type: ['string'],
+        required: true,
+        example: ['66','25']
+      },
+      topicName: {
+        type: 'string',
+        required: true,
+      },
+      topicId: {
+        type: 'string',
+        required: true,
+      },
+      workflowId: {
+        type: 'string',
+        required: true,
+      },
+
+    },
     serverError: {
         responseType: 'serverError',
         description: 'server issue',
     },
 
 
-    fn: async function() {
-        const subject = 'Alert';
-        let content = 'There has been a Lots of problems';
-        // let content = new Object();
-        // content.data = 'There has been a problem'
-        const topicID = 'alerttest1232';
-        await novuServices.createSubscribers('66', 'Pratyush', 'Kumar', 'pratyush.kumar@smartjoules.in');
-        const info = await novuServices.initiateSubscribers('66', topicID);
+    fn: async function(inputs, exits) {
+      try {
+        const {userSubscriberIds, topicName, topicId, workflowId} = inputs;
 
-        await novuServices.createSubscribers('99','Smart', 'Joules', 'pratyushkumar.jans@gmail.com');
-        const senderInfo = await novuServices.initiateSubscribers('99',topicID);
-        let record = null;
-        if(info && senderInfo){
-            let subscriberIDs = ['66','99'];
-            record = await novuServices.sender(subject, content, subscriberIDs, topicID);
-        }else{
-            console.log('Problem problem');
+        // let userSubscriberIds = ['66','25'];
+        // let topicName = 'Test Topic';
+        // let topicId = 'topic1234';
+        // let workflowId = 'test-topic';
+
+        const subscriberDetails = {
+            subscriberID:'25', 
+            firstname:'Naman', 
+            lastname:'Kumar', 
+            emailID:'namankumar@smartjoules.in',  
+            isDeveloper:true,
         }
-        return record;
+
+        let Subject = 'Smart Alerts';
+        let Content = 'This is a test email.';
+
+        await novuServices.registerSubscribers(subscriberDetails);
+        // Register subscribers:- registerSubscribers();
+        // Create workflow with template :- createWorkflowWithEmailTemplate()
+        // Create topic :- createTopic()
+        // Add subscriber to workflow:- addSubscriberToWorkflow()
+        // Trigger workflow:- triggerWorkflowToTopic()
+        const response = await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
+        return response;
+      } catch(e) {
+        return exits.serverError({
+          err: 'Server has encountered an error.Please contact the administrator'
+        })
+      }
     }
 };
-
-
