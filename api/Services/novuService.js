@@ -90,11 +90,26 @@ async function createTemplate(workflowGroupsData, Subject, Content, topicID) {
                 name: Subject,
                 template: {
                     type: StepTypeEnum.EMAIL,
-                    subject: '{{Subject}}',
+                    subject: Subject,
                     content: [
                         {
                             type: 'text',
-                            content: '{{mainContent}}',
+                            content: Content,
+                        }
+                    ],
+                    // to: '{{emailID}}',
+                },
+            },
+            {
+                shouldStopOnFail: false,
+                name: Subject,
+                template: {
+                    type: StepTypeEnum.EMAIL,
+                    subject: Subject,
+                    content: [
+                        {
+                            type: 'text',
+                            content: Content,
                         }
                     ],
                     // to: '{{emailID}}',
@@ -127,12 +142,11 @@ async function sender(Subject, Content, subscriberIDs, topicID){
         // let subscribers = topicSubscribed.data.data.succeeded;
         
         const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
-        // const Template = await createTemplate(workflowGroupsData);
 
         console.log('Template data:', Template);
 
 
-        await novu.trigger('alerttest1232-6wgiiN_xB', {
+        await novu.trigger('alerttest1232-VvX3JYcDI', {
           to: {
             type: 'Topic',
             topicKey: topicID,
