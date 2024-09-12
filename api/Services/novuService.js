@@ -1,3 +1,4 @@
+const { workflow } = require('@novu/framework');
 const { Novu, FilterPartTypeEnum, TemplateVariableTypeEnum, StepTypeEnum, TriggerRecipientsTypeEnum} =  require('@novu/node');
 const apiKey = 'f67f91f0ce1f2ce1295b9c23fa9c7373';
 const axios = require('axios');
@@ -89,11 +90,11 @@ async function createTemplate(workflowGroupsData, Subject, Content, topicID) {
                 name: Subject,
                 template: {
                     type: StepTypeEnum.EMAIL,
-                    subject: Subject,
+                    subject: '{{Subject}}',
                     content: [
                         {
                             type: 'text',
-                            content: Content,
+                            content: '{{mainContent}}',
                         }
                     ],
                     // to: '{{emailID}}',
@@ -123,50 +124,41 @@ async function sender(Subject, Content, subscriberIDs, topicID){
         if(!topicSubscribed) throw console.error('Cant subscribe to topic');
         else console.log(topicSubscribed);
 
-        // let subscribers = topicSubscribed.data.succeeded;
+        // let subscribers = topicSubscribed.data.data.succeeded;
         
         const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
         // const Template = await createTemplate(workflowGroupsData);
 
-        // console.log('Template data:', Template);
+        console.log('Template data:', Template);
 
-        // const _response = await novu.trigger('alerttest1232-E14RrTYYo', {
-        //     to: {
-        //         type: TriggerRecipientsTypeEnum.TOPIC,
-        //         topicKey: topicID,
-        //     },
-        //     payload: {
 
-        //     },
-        //   });
-
-        await novu.trigger('alerttest1232-E14RrTYYo', {
+        await novu.trigger('alerttest1232-6wgiiN_xB', {
           to: {
             type: 'Topic',
             topicKey: topicID,
           },
           payload: {
-            // subject: 'Your Email Subject',
-            // preheader: 'A brief summary of the email content',
-            // body: {
-            //   greeting: 'Hello',
-            //   mainContent: 'This is the main content of your email.',
-            //   callToAction: {
-            //     text: 'Click Here',
-            //     link: 'https://example.com'
-            //   },
-            //   closing: 'Thank you for your attention.'
-            // },
-            // attachments: [
-            //   {
-            //     file: 'base64-encoded-file-content',
-            //     name: 'attachment.pdf'
-            //   }
-            // ],
-            // customVariables: {
-            //   userName: '{{subscriber.firstName}}',
-            //   companyName: 'Your Company'
-            // }
+            subject: 'Your Email Subject',
+            preheader: 'A brief summary of the email content',
+            body: {
+              greeting: 'Hello',
+              mainContent: 'This is the main content of your email.',
+              callToAction: {
+                text: 'Click Here',
+                link: 'https://example.com'
+              },
+              closing: 'Thank you for your attention.'
+            },
+            attachments: [
+              {
+                file: 'base64-encoded-file-content',
+                name: 'attachment.pdf'
+              }
+            ],
+            customVariables: {
+              userName: '{{subscriber.firstName}}',
+              companyName: 'Your Company'
+            }
           }
         });
 
