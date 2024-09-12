@@ -96,7 +96,7 @@ async function createWorkflowWithEmailTemplate(Subject, Content, Name, workflowG
     }
 }
 
-async function triggerWorkflowToTopic(topicID, workflowID) {
+async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
     try{
         await novu.trigger(workflowID,{
             to:{
@@ -105,6 +105,8 @@ async function triggerWorkflowToTopic(topicID, workflowID) {
             },
             payload:{
                 //enter variables to the template
+                Subject: Subject,
+                Content: Content,
             }
         })
     }catch(error){
@@ -116,8 +118,8 @@ async function sendEmail(topicID, subscriberIDs, Subject, Content, workflowID, N
     let workflowGroupsData = await fetchWorkFlow();
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
-    await createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData);
-    await triggerWorkflowToTopic(topicID, workflowID);
+    // await createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData);
+    await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
 module.exports = {
