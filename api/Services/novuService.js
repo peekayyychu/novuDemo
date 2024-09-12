@@ -5,6 +5,47 @@ const axios = require('axios');
 const errors = require('sails-hook-sockets/lib/errors');
 // const { description } = require('../controllers/Notifications/workflow');
 const novu = new Novu(apiKey);
+// const fs = require('fs');
+// const path = require('path');
+// const mailPath = path.join(__dirname, '../mail.html');
+// const mail = fs.readFileSync(mailPath, 'utf8');
+
+const data = `<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005f73;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Webpage</h1>
+    <p>This is a sample webpage created with HTML. Click the button below to interact.</p>
+    <button onclick="alert('Button Clicked!')">Click Me</button>
+</body>
+</html>`;
 
 const ovu = axios.create({
     baseURL: 'https://api.novu.co',
@@ -94,27 +135,27 @@ async function createTemplate(workflowGroupsData, Subject, Content, topicID) {
                     content: [
                         {
                             type: 'text',
-                            content: Content,
+                            content: data,
                         }
                     ],
                     // to: '{{emailID}}',
                 },
             },
-            {
-                shouldStopOnFail: false,
-                name: Subject,
-                template: {
-                    type: StepTypeEnum.EMAIL,
-                    subject: Subject,
-                    content: [
-                        {
-                            type: 'text',
-                            content: Content,
-                        }
-                    ],
-                    // to: '{{emailID}}',
-                },
-            },
+            // {
+            //     shouldStopOnFail: false,
+            //     name: Subject,
+            //     template: {
+            //         type: StepTypeEnum.EMAIL,
+            //         subject: Subject,
+            //         content: [
+            //             {
+            //                 type: 'text',
+            //                 content: Content,
+            //             }
+            //         ],
+            //         // to: '{{emailID}}',
+            //     },
+            // },
         ],
         description: 'Onboarding workflow to trigger after user sign up',
         active: true,
@@ -141,12 +182,12 @@ async function sender(Subject, Content, subscriberIDs, topicID){
 
         // let subscribers = topicSubscribed.data.data.succeeded;
         
-        const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
+        // const Template = await createTemplate(workflowGroupsData, Subject, Content, topicID);
 
-        console.log('Template data:', Template);
+        // console.log('Template data:', Template);
 
 
-        await novu.trigger('alerttest1232-VvX3JYcDI', {
+        await novu.trigger('alerttest1232-31r2mdbhy', {
           to: {
             type: 'Topic',
             topicKey: topicID,
@@ -154,14 +195,16 @@ async function sender(Subject, Content, subscriberIDs, topicID){
           payload: {
             subject: 'Your Email Subject',
             preheader: 'A brief summary of the email content',
+            Content: Content,
             body: {
-              greeting: 'Hello',
-              mainContent: 'This is the main content of your email.',
-              callToAction: {
-                text: 'Click Here',
-                link: 'https://example.com'
-              },
-              closing: 'Thank you for your attention.'
+            //   greeting: 'Hello',
+            //   mainContent: 'This is the main content of your email.',
+            //   callToAction: {
+            //     text: 'Click Here',
+            //     link: 'https://example.com'
+            //   },
+            //   closing: 'Thank you for your attention.'
+                
             },
             attachments: [
               {
