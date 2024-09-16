@@ -33,6 +33,10 @@ module.exports = {
         responseType: 'serverError',
         description: 'server issue',
       },
+      success: {
+        responseType: 'Success',
+        description: 'Mail created successfully',
+      },
     },
 
 
@@ -62,12 +66,12 @@ module.exports = {
         // Create topic :- createTopic()
         // Add subscriber to workflow:- addSubscriberToWorkflow()
         // Trigger workflow:- triggerWorkflowToTopic()
-        const response = await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
-        return response;
+        await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
       } catch(e) {
         return exits.serverError({
           err: 'Server has encountered an error.Please contact the administrator' + e,
         })
       }
+      return exits.success();
     }
 };
