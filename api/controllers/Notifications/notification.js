@@ -28,9 +28,11 @@ module.exports = {
       },
 
     },
-    serverError: {
+    exits: {
+      serverError: {
         responseType: 'serverError',
         description: 'server issue',
+      },
     },
 
 
@@ -43,18 +45,18 @@ module.exports = {
         // let topicId = 'topic1234';
         // let workflowId = 'test-topic';
 
-        const subscriberDetails = {
-            subscriberID:'25', 
-            firstname:'Naman', 
-            lastname:'Kumar', 
-            emailID:'namankumar@smartjoules.in',  
-            isDeveloper:true,
-        }
+        // const subscriberDetails = {
+        //     subscriberID:'25', 
+        //     firstname:'Naman', 
+        //     lastname:'Kumar', 
+        //     emailID:'namankumar@smartjoules.in',  
+        //     isDeveloper:true,
+        // }
 
         let Subject = 'Smart Alerts';
         let Content = 'This is a test email.';
 
-        await novuServices.registerSubscribers(subscriberDetails);
+        // await novuServices.registerSubscribers(subscriberDetails);
         // Register subscribers:- registerSubscribers();
         // Create workflow with template :- createWorkflowWithEmailTemplate()
         // Create topic :- createTopic()
@@ -64,7 +66,7 @@ module.exports = {
         return response;
       } catch(e) {
         return exits.serverError({
-          err: 'Server has encountered an error.Please contact the administrator'
+          err: 'Server has encountered an error.Please contact the administrator' + e,
         })
       }
     }

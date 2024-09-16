@@ -5,6 +5,35 @@ const axios = require('axios');
 const novu = new Novu(apiKey);
 
 
+const data = `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Sample Webpage</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                    margin: 0;
+                    padding: 20px;
+                }
+                h1 {
+                    color: #333;
+                }
+                p {
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Welcome to {{Subject}}</h1>
+            <p>This is a {{Content}}.</p>
+        </body>
+        </html>
+    `;
+
+
 async function registerSubscribers(subscriberDetails){
     await novu.subscribers.identify(subscriberDetails.subscriberID,{
         firstName: subscriberDetails.firstName,
@@ -70,13 +99,14 @@ async function createWorkflowWithEmailTemplate(Subject, Content, Name, workflowG
             {
                 shouldStopOnFail: false,
                 name: Subject,
+                senderName: 'SJPL',
                 template: {
                     type: StepTypeEnum.EMAIL,
-                    subject: Subject,
+                    subject: '{{Subject}}',
                     content: [
                         {
                             type: 'text',
-                            content: Content,
+                            content: data,
                         }
                     ],
                 },
@@ -86,7 +116,7 @@ async function createWorkflowWithEmailTemplate(Subject, Content, Name, workflowG
         active: true,
         draft: false,
         critical: false,
-        type: 'Editor',
+        type: 'customHtml',
     });
 
     if(!template){
@@ -118,7 +148,7 @@ async function sendEmail(topicID, subscriberIDs, Subject, Content, workflowID, N
     let workflowGroupsData = await fetchWorkFlow();
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
-    // await createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData);
+    await createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData);
     await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
