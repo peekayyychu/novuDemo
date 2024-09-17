@@ -182,16 +182,14 @@ async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
 
 async function sendEmail(topicID, subscriberIDs, Subject, Content, workflowID, Name){
     let workflowGroupsData = await fetchWorkFlow();
-    console.log(workflowGroupsData.data);
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
     await createWorkflowWithEmailTemplate(Subject, Name, workflowGroupsData);
-    // await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
+    await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
 async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Name){
     let workflowGroupsData = await fetchWorkFlow();
-    console.log(workflowGroupsData.data[0]._id);
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
     await createMessagingTemplate(Subject, workflowGroupsData, Name);
