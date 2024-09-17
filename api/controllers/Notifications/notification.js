@@ -58,7 +58,7 @@ module.exports = {
         // }
 
         // novu.subscribers.update('66',{
-        //   phone: '9318304877',
+        //   phone: '+91XXXXXXXXXX',
         // })
 
         let Subject = 'Smart Alerts';
