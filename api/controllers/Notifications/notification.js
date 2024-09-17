@@ -57,6 +57,10 @@ module.exports = {
         //     isDeveloper:true,
         // }
 
+        // novu.subscribers.update('66',{
+        //   phone: '9318304877',
+        // })
+
         let Subject = 'Smart Alerts';
         let Content = 'This is a test email.';
 
@@ -66,12 +70,13 @@ module.exports = {
         // Create topic :- createTopic()
         // Add subscriber to workflow:- addSubscriberToWorkflow()
         // Trigger workflow:- triggerWorkflowToTopic()
-        await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
+        // await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
+        await novuServices.sendSMS(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
       } catch(e) {
         return exits.serverError({
           err: 'Server has encountered an error.Please contact the administrator' + e,
         })
       }
-      return exits.success();
+      return 'Successfull';
     }
 };

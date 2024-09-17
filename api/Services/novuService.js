@@ -88,7 +88,7 @@ async function addSubscriberToWorkflow(subscriberIDs, topicID){
     }
 }
 
-async function createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData){
+async function createWorkflowWithEmailTemplate(Subject, Name, workflowGroupsData){
     
     let template = await novu.notificationTemplates.create({
         name: Name,
@@ -126,6 +126,42 @@ async function createWorkflowWithEmailTemplate(Subject, Content, Name, workflowG
     }
 }
 
+async function createMessagingTemplate(Subject, workflowGroupsData, Name){
+    let template = await novu.notificationTemplates.create({
+        name: Name,
+        active: true,
+        notificationGroupId: workflowGroupsData.data[0]._id,
+
+        steps: [
+            {
+                shouldStopOnFail: false,
+                name: Subject,
+                senderName: 'SJPL',
+                template: {
+                    type: 'chat',
+                    content: [
+                        {
+                            type: 'String',
+                            content: '{{Content}}',
+                        }
+                    ],
+                },
+            },
+        ],
+        description: 'Onboarding workflow to trigger after user sign up',
+        active: true,
+        draft: false,
+        critical: false,
+        type: 'Editor',
+    })
+
+    if(!template){
+        console.log.error('Error in creating workflow');
+    }else{
+        console.log('Workflow successfully created');
+    }
+}
+
 async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
     try{
         await novu.trigger(workflowID,{
@@ -135,7 +171,7 @@ async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
             },
             payload:{
                 //enter variables to the template
-                Subject: Subject,
+                // Subject: Subject,
                 Content: Content,
             }
         })
@@ -146,9 +182,19 @@ async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
 
 async function sendEmail(topicID, subscriberIDs, Subject, Content, workflowID, Name){
     let workflowGroupsData = await fetchWorkFlow();
+    console.log(workflowGroupsData.data);
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
-    await createWorkflowWithEmailTemplate(Subject, Content, Name, workflowGroupsData);
+    await createWorkflowWithEmailTemplate(Subject, Name, workflowGroupsData);
+    // await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
+}
+
+async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Name){
+    let workflowGroupsData = await fetchWorkFlow();
+    console.log(workflowGroupsData.data[0]._id);
+    await addSubscriberToWorkflow(subscriberIDs, topicID);
+    await createTopic(topicID, Name);
+    await createMessagingTemplate(Subject, workflowGroupsData, Name);
     await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
@@ -158,6 +204,7 @@ module.exports = {
     addSubscriberToWorkflow,
     registerSubscribers,
     sendEmail,
+    sendSMS,
 }
 
 //make a new template
