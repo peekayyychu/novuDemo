@@ -1,6 +1,6 @@
 const { workflow } = require('@novu/framework');
 const { Novu, FilterPartTypeEnum, TemplateVariableTypeEnum, StepTypeEnum, TriggerRecipientsTypeEnum} =  require('@novu/node');
-const apiKey = 'f67f91f0ce1f2ce1295b9c23fa9c7373';
+const apiKey = '<API_KEY>';
 const axios = require('axios');
 const novu = new Novu(apiKey);
 
@@ -138,7 +138,7 @@ async function createMessagingTemplate(Subject, workflowGroupsData, Name){
                 name: Subject,
                 senderName: 'SJPL',
                 template: {
-                    type: 'chat',
+                    type: StepTypeEnum.SMS,
                     content: [
                         {
                             type: 'String',
@@ -193,7 +193,7 @@ async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Nam
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
     await createMessagingTemplate(Subject, workflowGroupsData, Name);
-    await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
+    // await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
 module.exports = {

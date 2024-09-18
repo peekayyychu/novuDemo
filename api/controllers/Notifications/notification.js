@@ -1,5 +1,5 @@
 const { Novu } =  require('@novu/node');
-const novu = new Novu('f67f91f0ce1f2ce1295b9c23fa9c7373');
+const novu = new Novu('<API_KEY>');
 const novuServices = require('../../Services/novuService');
 
 module.exports = {
