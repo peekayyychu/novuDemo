@@ -1,5 +1,5 @@
 const { Novu } =  require('@novu/node');
-const novu = new Novu('<API_KEY>');
+const novu = new Novu('f67f91f0ce1f2ce1295b9c23fa9c7373');
 const novuServices = require('../../Services/novuService');
 
 module.exports = {
@@ -57,8 +57,8 @@ module.exports = {
         //     isDeveloper:true,
         // }
 
-        // novu.subscribers.update('subscriberID',{
-        //   phone: '+91XXXXXXXXXX', //format for phone no.
+        // novu.subscribers.update('66',{
+        //   phone: '+919318304877', //format for phone no.
         // })
 
         let Subject = 'Smart Alerts';
@@ -70,8 +70,8 @@ module.exports = {
         // Create topic :- createTopic()
         // Add subscriber to workflow:- addSubscriberToWorkflow()
         // Trigger workflow:- triggerWorkflowToTopic()
-        // await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
-        await novuServices.sendSMS(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
+        await novuServices.sendEmail(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
+        // await novuServices.sendSMS(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
       } catch(e) {
         return exits.serverError({
           err: 'Server has encountered an error.Please contact the administrator ' + e,
