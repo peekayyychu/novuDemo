@@ -57,8 +57,8 @@ module.exports = {
         //     isDeveloper:true,
         // }
 
-        // novu.subscribers.update('66',{
-        //   phone: '+91XXXXXXXXXX',
+        // novu.subscribers.update('subscriberID',{
+        //   phone: '+91XXXXXXXXXX', //format for phone no.
         // })
 
         let Subject = 'Smart Alerts';
@@ -74,7 +74,7 @@ module.exports = {
         await novuServices.sendSMS(topicId, userSubscriberIds, Subject, Content, workflowId, topicName);
       } catch(e) {
         return exits.serverError({
-          err: 'Server has encountered an error.Please contact the administrator' + e,
+          err: 'Server has encountered an error.Please contact the administrator ' + e,
         })
       }
       return 'Successfull';

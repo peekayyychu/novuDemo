@@ -135,10 +135,10 @@ async function createMessagingTemplate(Subject, workflowGroupsData, Name){
         steps: [
             {
                 shouldStopOnFail: false,
-                name: Subject,
+                name: '{{Content}}',
                 senderName: 'SJPL',
                 template: {
-                    type: StepTypeEnum.SMS,
+                    type: 'sms',
                     content: [
                         {
                             type: 'String',
@@ -192,8 +192,8 @@ async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Nam
     let workflowGroupsData = await fetchWorkFlow();
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
-    await createMessagingTemplate(Subject, workflowGroupsData, Name);
-    // await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
+    // await createMessagingTemplate(Subject, workflowGroupsData, Name);
+    await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
 module.exports = {
