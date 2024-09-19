@@ -21,7 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
   'GET /notif': {action: 'Notifications/notification'},
-  'GET /template': {action: 'Notifications/createTemplate'},
+  'GET /template': {action: 'Notifications/template'},
 
 
   /***************************************************************************

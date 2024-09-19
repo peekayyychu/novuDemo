@@ -23,11 +23,13 @@ module.exports = {
     fn: async function(exits) {
       try {
         await novuServices.createEmailTemplate();
+        return exits.success({
+            message: 'Mail created successfully',
+        });
       } catch(e) {
         return exits.serverError({
           err: 'Server has encountered an error.Please contact the administrator ' + e,
         })
       }
-      return 'Successfull';
     }
 };
