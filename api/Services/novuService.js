@@ -1,6 +1,6 @@
 const { workflow } = require('@novu/framework');
 const { Novu, FilterPartTypeEnum, TemplateVariableTypeEnum, StepTypeEnum, TriggerRecipientsTypeEnum, ChannelTypeEnum} =  require('@novu/node');
-const apiKey = 'f67f91f0ce1f2ce1295b9c23fa9c7373';
+const apiKey = process.env.NOVU_SECRET_KEY;
 const axios = require('axios');
 const novu = new Novu(apiKey);
 
