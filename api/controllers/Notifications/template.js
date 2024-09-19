@@ -1,5 +1,4 @@
 const { Novu } =  require('@novu/node');
-const novu = new Novu(process.env.NOVU_SECRET_KEY);
 const novuServices = require('../../Services/novuService');
 
 module.exports = {
@@ -14,13 +13,13 @@ module.exports = {
         description: 'server issue',
       },
       success: {
-        responseType: 'Success',
+        responseType: 'ok',
         description: 'Mail created successfully',
       },
     },
 
 
-    fn: async function(exits) {
+    fn: async function(inputs ,exits) {
       try {
         await novuServices.createEmailTemplate();
         return exits.success({
@@ -31,5 +30,6 @@ module.exports = {
           err: 'Server has encountered an error.Please contact the administrator ' + e,
         })
       }
+
     }
 };

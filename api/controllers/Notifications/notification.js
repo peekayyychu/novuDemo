@@ -1,5 +1,4 @@
 const { Novu } =  require('@novu/node');
-const novu = new Novu('f67f91f0ce1f2ce1295b9c23fa9c7373');
 const novuServices = require('../../Services/novuService');
 
 module.exports = {
@@ -34,7 +33,7 @@ module.exports = {
         description: 'server issue',
       },
       success: {
-        responseType: 'Success',
+        responseType: 'ok',
         description: 'Mail created successfully',
       },
     },
