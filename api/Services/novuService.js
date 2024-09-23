@@ -154,13 +154,18 @@ async function createMessagingTemplate(Subject, workflowGroupsData, Name){
                 name: 'Send SMS to User',
                 senderName: 'SJPL',
                 template: {
-                  type: ChannelTypeEnum.SMS,
-                  content: [
+                  type: StepTypeEnum.SMS,
+                  active: true,
+                  variables: [
                     {
-                      type: 'String',
-                      content: 'Welcome to Smart Joules! Use this link to onboard',
+                      name: "chatContent",
+                      // 'String'
+                      type: TemplateVariableTypeEnum.STRING,
+                      required: true,
+                      defaultValue: "default message",
                     },
-                  ],
+                ],
+                  content : '{{content}}',
                 },
               },
             ],
@@ -192,7 +197,7 @@ async function triggerWorkflowToTopic(topicID, workflowID, Subject, Content) {
             payload:{
                 //enter variables to the template
                 // Subject: Subject,
-                Content: Content,
+                content: Content,
             }
         })
     }catch(error){
@@ -218,7 +223,7 @@ async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Nam
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
     await createMessagingTemplate(Subject, workflowGroupsData, Name);
-    // await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
+    await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
 
