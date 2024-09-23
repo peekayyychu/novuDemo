@@ -141,7 +141,7 @@ async function createWorkflowWithEmailTemplate(Name, workflowGroupsData){
     }
 }
 
-async function createMessagingTemplate(Subject, workflowGroupsData, Name){
+async function createMessagingTemplate(workflowGroupsData, Name){
     try{
         const template = await novu.notificationTemplates.create({
             name: 'Onboarding Workflow',
@@ -213,7 +213,7 @@ async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Nam
     let workflowGroupsData = await fetchWorkFlow();
     await addSubscriberToWorkflow(subscriberIDs, topicID);
     await createTopic(topicID, Name);
-    await createMessagingTemplate(Subject, workflowGroupsData, Name);
+    await createMessagingTemplate(workflowGroupsData, Name);
     await triggerWorkflowToTopic(topicID, workflowID, Subject, Content);
 }
 
