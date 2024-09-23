@@ -156,15 +156,6 @@ async function createMessagingTemplate(Subject, workflowGroupsData, Name){
                 template: {
                   type: StepTypeEnum.SMS,
                   active: true,
-                  variables: [
-                    {
-                      name: "chatContent",
-                      // 'String'
-                      type: TemplateVariableTypeEnum.STRING,
-                      required: true,
-                      defaultValue: "default message",
-                    },
-                ],
                   content : '{{content}}',
                 },
               },
