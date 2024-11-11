@@ -223,7 +223,6 @@ async function sendSMS(topicID, subscriberIDs, Subject, Content, workflowID, Nam
 
 
 module.exports = {
-<<<<<<< HEAD
     triggerWorkflowToTopic,
     createWorkflowWithEmailTemplate,
     addSubscriberToWorkflow,
@@ -233,16 +232,6 @@ module.exports = {
     createEmailTemplate,
     getSubscriberDetails,
 }
-=======
-  triggerWorkflowToTopic,
-  createWorkflowWithEmailTemplate,
-  addSubscriberToWorkflow,
-  registerSubscribers,
-  sendEmail,
-  sendSMS,
-  createEmailTemplate,
-};
->>>>>>> 38d32b8eb85113e91bb0fbfcb76394e377b18a1d
 
 //make a new template
 //hardcode subscriber id
