@@ -22,6 +22,7 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
   'GET /notif': {action: 'Notifications/notification'},
   'GET /template': {action: 'Notifications/template'},
+  'POST /subscriber' : {action: 'Notifications/fetchsubscriber'},
 
 
   /***************************************************************************

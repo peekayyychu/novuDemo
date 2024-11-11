@@ -33,6 +33,16 @@ const data = `
         </html>
     `;
 
+async function getSubscriberDetails(params){
+    let subscriberData = {
+        firstName: params.firstName,
+        lastName: params.lastName,
+        emailID: params.emailID,
+        phone: params.phone,
+    }
+
+    return subscriberData;
+}
 
 async function registerSubscribers(subscriberDetails){
     await novu.subscribers.identify(subscriberDetails.subscriberID,{
@@ -226,6 +236,7 @@ module.exports = {
     sendEmail,
     sendSMS,
     createEmailTemplate,
+    getSubscriberDetails,
 }
 
 //make a new template
